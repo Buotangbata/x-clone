@@ -1,30 +1,28 @@
 <script>
 
-  import TiTrash from "svelte-icons/ti/TiTrash.svelte"
-  import TiMessage from "svelte-icons/ti/TiMessage.svelte"
-  import TiHeartOutline from "svelte-icons/ti/TiHeartOutline.svelte"
+  import GlidePost from "../components/glides/GlidePost.svelte";
   import TiImageOutline from "svelte-icons/ti/TiImageOutline.svelte"
-	import TrendSideBar from "../components/sidebar/TrendSideBar.svelte";
-	import NavSideBar from "../components/sidebar/NavSideBar.svelte";
+
+  let glides = [];
+  let glideContent = "";
+  function createGlide(){
+    const glide = {
+      id: new Date().toISOString(),
+      content:glideContent,
+      user: {
+        name:"fillip99",
+        avatar:"https://thrangra.sirv.com/Avatar1.png"
+      },
+      likes:0,
+      subglide:0,
+      date: new Date()
+    };
+    glides = [glide, ...glides]
+    glideContent = "";
+    console.log(glideContent);
+  }
 </script>
 
-
-<div class="w-full h-full bg-gray-900 text-gray-100">
-  <div class="flex h-full min-h-252">
-    <!-- SIDEBAR START -->
-    <NavSideBar/>
-    <!-- SIDEBARS END -->
-    <main class="flex-it flex-grow flex-shrink items-start">
-      <div class="flex md:w-248 w-full h-full">
-        <div class="flex-it flex-grow flex-shrink">
-          <div class="flex-it flex-row justify-between min-h-full">
-            <div class="flex-it md:max-w-152 w-full border-x-1 border-solid border-gray-700">
-              <div class="sticky z-10 flex-it top-0">
-                <div class="flex-it h-14 p-4 xl:text-xl text-sm font-bold z-10 backdrop-blur-md bg-opacity-70">
-                  Home
-                </div>
-              </div>
-              <!-- Children -->
               <!-- HOME PAGE START -->
               <div class="flex-it py-1 px-4 flex-row">
                 <div class="flex-it mr-4">
@@ -45,6 +43,7 @@
                       id="glide"
                       class="bg-transparent resize-none overflow-hidden block !outline-none !border-none border-transparent focus:border-transparent focus:ring-0 text-gray-100 text-xl w-full p-0"
                       placeholder={"What's new?"}
+                      bind:value = {glideContent}
                     />
                   </div>
                   <div class="flex-it mb-1 flex-row xs:justify-between items-center">
@@ -58,6 +57,7 @@
                     </div>
                     <div class="flex-it w-32 mt-3 cursor-pointer">
                       <button
+                        on:click={createGlide}
                         type="button"
                         class="
                         disabled:cursor-not-allowed disabled:bg-gray-400
@@ -74,65 +74,10 @@
               </div>
               <div class="h-px bg-gray-700 my-1" />
               <!-- GLIDE POST START -->
-              <div class="flex-it p-4 border-b-1 border-solid border-gray-700">
-                <div class="flex-it flex-row">
-                  <div class="flex-it mr-4">
-                    <div class="w-12 h-12 overflow-visible cursor-pointer transition duration-200 hover:opacity-80">
-                      <img
-                        alt=""
-                        class="rounded-full"
-                        src="https://www.pinclipart.com/picdir/middle/133-1331433_free-user-avatar-icons-happy-flat-design-png.png"
-                      />
-                    </div>
-                  </div>
-                  <article class="flex-it flex-grow flex-shrink cursor-pointer">
-                    <div class="flex-it justify-center flex-grow mb-1">
-                      <div class="flex-it justify-between flex-row w-full">
-                        <div>
-                          <span class="font-bold">Filip99</span>
-                          <span class="mx-2">&#8226;</span>
-                          <span class="text-gray-400">2h</span>
-                        </div>
-                        <div class="text-gray-400 cursor-pointer transition hover:text-red-400">
-                          <div class="icon">
-                            <TiTrash />
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="flex-it flex-row flex-grow-0 items-center mb-2">
-                      <div class="flex-it mr-3 mb-3 w-full">
-                        My First Post
-                      </div>
-                    </div>
-                    <div class="flex-it flex-row flex-grow text-gray-400">
-                      <div class="flex-it flex-row items-center cursor-pointer mr-5 transition hover:text-blue-400">
-                        <div class="icon">
-                          <TiMessage />
-                        </div>
-                        <span class="text-xs ml-3">321</span>
-                      </div>
-                      <div class="flex-it flex-row items-center cursor-pointer transition hover:text-pink-400">
-                        <div class="icon">
-                          <TiHeartOutline />
-                        </div>
-                        <span class="text-xs ml-3">123</span>
-                      </div>
-                    </div>
-                  </article>
-                </div>
-              </div>
+
+              {#each glides as post(post.id)}
+              <GlidePost glide={post}/>
+              {/each}
+              
               <!-- GLIDE POST END -->
               <!-- HOME PAGE END -->
-            </div>
-            <div class="flex-it md:w-92 w-0 mt-4">
-              <!-- TRENDS SIDEBAR START -->
-              <TrendSideBar/>
-              <!-- TRENDS SIDEBAR END -->
-            </div>
-          </div>
-        </div>
-      </div>
-    </main>
-  </div>
-</div>
